@@ -1,0 +1,12 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    libxml-ruby (2.6.0)
+    libxml4r (0.2.6)
+      libxml-ruby (>= 1.1.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  libxml4r

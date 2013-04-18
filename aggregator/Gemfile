@@ -1,0 +1,3 @@
+source :rubygems
+
+gem 'libxml4r'
