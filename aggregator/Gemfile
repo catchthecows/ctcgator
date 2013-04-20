@@ -1,3 +1,8 @@
 source :rubygems
 
 gem 'libxml4r'
+gem 'murmurhash3'
+gem 'data_mapper'
+gem 'dm-sqlite-adapter'
+gem 'sqlite3'
+

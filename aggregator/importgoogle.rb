@@ -1,22 +1,46 @@
 require 'xml'
+require 'murmurhash3'
 
-require_relative 'rssreader.rb'
+require_relative 'rssreader'
 
-source = XML::Parser.file('./temp/subscriptions.xml')
+require_relative 'models/init'
 
-document = source.parse
+def show(msg)
+end
 
-content = document.find('//outline').find
+def import(filename)
+    source = XML::Parser.file(filename)
+    document = source.parse
+    content = document.find('//outline').find
 
-r = RssReader.new
-content.each do | i |
-    if (i['type'] == 'rss')
-        puts i['xmlUrl']
-        begin
-            r.read(i['xmlUrl'])
-        rescue => ex
-            puts ex.message
+    r = RssReader.new
+    content.each do | i |
+        if (i['type'] == 'rss')
+            puts "    #{i['title']}"
+            puts "    #{i['xmlUrl']}"
+
+            begin
+                s = Source.new
+                s.title = i['title']
+                s.url = i['xmlUrl']
+                s.type = 'rss'
+                s.save
+
+#                puts "  - saved"
+
+            #m1 = MurmurHash3::V128.str_hash(i['xmlUrl'])
+            #puts m1.join('')
+                # r.read(i['xmlUrl'])
+            rescue => ex
+                puts ex.message
+            end
+            #puts '-- done'
+            false
+        else
+            puts i['title']
         end
-        puts '-- done'
     end
 end
+
+import './temp/subscriptions.xml'
+
