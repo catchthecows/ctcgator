@@ -18,9 +18,15 @@ class RssReader < Reader
                 end
         end
         rescue OpenURI::HTTPError => ex
-            puts 'HTTPERROR'
+            item = Object.new
+            item.instance_variable_set(:@valid,false)
+            yield item
+            puts "HTTPERROR #{ex.message}"
         rescue => ex
-            puts ex.message
+            item = Object.new
+            item.instance_variable_set(:@valid,false)
+            yield item
+            puts "EX #{ex.message}"
         end
     end
 
