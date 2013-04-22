@@ -1,4 +1,4 @@
-require 'rss'
+require 'feed-normalizer'
 require 'open-uri'
 require_relative 'reader.rb'
 
@@ -8,9 +8,10 @@ class RssReader < Reader
         begin
         puts url
         open(url) do |rss|
-                feed = RSS::Parser.parse(rss)
+                #feed = RSS::Parser.parse(rss)
+                feed = FeedNormalizer::FeedNormalizer.parse(rss)
                 #puts "Feed: #{feed.channel.title}"
-                feed.items.each do |item|
+                feed.entries.each do |item|
                     item.instance_variable_set(:@valid,true)
                     yield item
                     #puts item.title

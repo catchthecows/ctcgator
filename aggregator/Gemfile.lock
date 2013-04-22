@@ -52,6 +52,10 @@ GEM
     do_sqlite3 (0.10.8)
       data_objects (= 0.10.8)
     fastercsv (1.5.5)
+    feed-normalizer (1.5.2)
+      hpricot (>= 0.6)
+      simple-rss (>= 1.1)
+    hpricot (0.8.6)
     json (1.7.5)
     json_pure (1.7.5)
     libxml-ruby (2.6.0)
@@ -59,6 +63,7 @@ GEM
       libxml-ruby (>= 1.1.3)
     multi_json (1.3.6)
     murmurhash3 (0.1.3)
+    simple-rss (1.2.3)
     sqlite3 (1.3.7)
     stringex (1.4.0)
     uuidtools (2.1.3)
@@ -69,6 +74,7 @@ PLATFORMS
 DEPENDENCIES
   data_mapper
   dm-sqlite-adapter
+  feed-normalizer
   libxml4r
   murmurhash3
   sqlite3
