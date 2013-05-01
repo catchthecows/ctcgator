@@ -1,25 +1,17 @@
-require_relative 'models/init'
+require 'fileutils'
 
+require_relative 'models/init'
 require_relative 'rssreader'
 
 def scan
     r = RssReader.new
-    Source.all.each do | s |
-    #Source.all( :url.like => '%GitHub%' ).each do | s |
+    #Source.all.each do | s |
+    Source.all( :url.like => '%colo%' ).each do | s |
+        feednum=s.count
+        FileUtils.mkpath "feed/#{s.id}"
+        
         r.read(s.url) { | item | 
             if (item.instance_variable_get(:@valid) == true) 
-                #puts '-----'
-                #puts "[#{item.title}]"
-                #puts item.description
-                #puts item.content
-                #puts "date    [#{item.date_published}]"
-                #puts "updated [#{item.last_updated}]"
-                #puts item.id
-                #puts item.url
-                
-                # TODO
-                # lookup up date_published + title
-               
                 if (item.date_published)
                     use_date = item.date_published
                 else
@@ -32,14 +24,24 @@ def scan
                     e.title = item.title
                     e.date = use_date
                     e.sourceid = s.id
+                    e.num = feednum
                     e.url = item.urls.first
-                    e.content = item.content
-
-                    # TODO validate
 
                     e.save
+                    
+                    puts "feed/#{s.id}/#{e.num}"
+                    file = nil
+                    begin
+                        file = File.open("feed/#{s.id}/#{e.num}", 'w')
+                        file.puts item.content
+                    rescue => ex
+                        puts "ERROR Writing feed"
+                        puts ex
+                    ensure
+                        file.close unless file.nil?
+                    end
 
-                    puts 'New Record'
+                    feednum = feednum+1
                 end
             else
                 puts 'ERROR READING FEED'

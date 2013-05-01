@@ -21,6 +21,7 @@ def import(filename)
 
             begin
                 s = Source.new
+                s.count = 0
                 s.title = i['title']
                 s.url = i['xmlUrl']
                 s.type = 'rss'
