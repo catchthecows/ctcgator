@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'zip/zip'
 
 require_relative 'models/init'
 require_relative 'rssreader'
@@ -6,7 +7,8 @@ require_relative 'rssreader'
 def scan
     r = RssReader.new
     #Source.all.each do | s |
-    Source.all( :url.like => '%colo%' ).each do | s |
+    #Source.all( :url.like => '%colo%' ).each do | s |
+    Source.all( :url.like => '%GitHub%' ).each do | s |
         feednum=s.count
         FileUtils.mkpath "feed/#{s.id}"
         
@@ -32,8 +34,12 @@ def scan
                     puts "feed/#{s.id}/#{e.num}"
                     file = nil
                     begin
-                        file = File.open("feed/#{s.id}/#{e.num}", 'w')
-                        file.puts item.content
+                        #file = File.open("feed/#{s.id}/#{e.num}.zip", 'w')
+                        #file.puts item.content
+                        Zip::ZipOutputStream.open("feed/#{s.id}/#{e.num}.zip") do |z|
+                            z.put_next_entry("content.txt")
+                            z.puts item.content
+                        end
                     rescue => ex
                         puts "ERROR Writing feed"
                         puts ex
