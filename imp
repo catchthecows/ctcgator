@@ -1,0 +1,5 @@
+#!/bin/sh
+
+. ./setenv
+
+ruby import/importgoogle.rb

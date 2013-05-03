@@ -1,9 +1,7 @@
 require 'xml'
 require 'murmurhash3'
 
-require_relative 'rssreader'
-
-require_relative 'models/init'
+require_relative '../models/init'
 
 def show(msg)
 end
@@ -13,7 +11,6 @@ def import(filename)
     document = source.parse
     content = document.find('//outline').find
 
-    r = RssReader.new
     content.each do | i |
         if (i['type'] == 'rss')
             puts "    #{i['title']}"
@@ -26,16 +23,9 @@ def import(filename)
                 s.url = i['xmlUrl']
                 s.type = 'rss'
                 s.save
-
-#                puts "  - saved"
-
-            #m1 = MurmurHash3::V128.str_hash(i['xmlUrl'])
-            #puts m1.join('')
-                # r.read(i['xmlUrl'])
             rescue => ex
                 puts ex.message
             end
-            #puts '-- done'
             false
         else
             puts i['title']
@@ -43,5 +33,5 @@ def import(filename)
     end
 end
 
-import './temp/subscriptions.xml'
+import "#{ENV['DATA_DIR']}/subscriptions.xml"
 

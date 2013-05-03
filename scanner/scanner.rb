@@ -1,18 +1,17 @@
 require 'fileutils'
 require 'zip/zip'
 
-require_relative 'models/init'
+require_relative '../models/init'
 require_relative 'rssreader'
 
 def scan
     r = RssReader.new
     #Source.all.each do | s |
-    #Source.all( :url.like => '%colo%' ).each do | s |
-    Source.all( :url.like => '%GitHub%' ).each do | s |
-        feednum=s.count
-        FileUtils.mkpath "feed/#{s.id}"
+    Source.all( :url.like => '%colo%' ).each do | s |
+    #Source.all( :url.like => '%GitHub%' ).each do | s |
+        FileUtils.mkpath "#{ENV['FEED_DIR']}/#{s.id}"
         
-        r.read(s.url) { | item | 
+        r.read(s.url) do | item | 
             if (item.instance_variable_get(:@valid) == true) 
                 if (item.date_published)
                     use_date = item.date_published
@@ -26,33 +25,29 @@ def scan
                     e.title = item.title
                     e.date = use_date
                     e.sourceid = s.id
-                    e.num = feednum
+                    e.num = s.count
                     e.url = item.urls.first
 
                     e.save
                     
                     puts "feed/#{s.id}/#{e.num}"
-                    file = nil
                     begin
-                        #file = File.open("feed/#{s.id}/#{e.num}.zip", 'w')
-                        #file.puts item.content
-                        Zip::ZipOutputStream.open("feed/#{s.id}/#{e.num}.zip") do |z|
+                        Zip::ZipOutputStream.open("#{ENV['FEED_DIR']}/#{s.id}/#{e.num}.zip") do |z|
                             z.put_next_entry("content.txt")
                             z.puts item.content
                         end
                     rescue => ex
                         puts "ERROR Writing feed"
                         puts ex
-                    ensure
-                        file.close unless file.nil?
                     end
 
-                    feednum = feednum+1
+                    s.count = s.count+1
+                    s.save
                 end
             else
                 puts 'ERROR READING FEED'
             end
-        }
+        end 
     end
 end
 

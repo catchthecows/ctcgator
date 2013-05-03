@@ -1,6 +1,10 @@
 require 'data_mapper'
 
-DataMapper.setup(:default, 'sqlite3:test.db')
+DataMapper.setup(:default, {
+    :adapter => 'sqlite3',
+    :database => ENV['DATABASE']
+})
+
 DataMapper::Property::String.length(255)
 
 require_relative 'source'
