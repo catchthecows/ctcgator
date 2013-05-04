@@ -1,0 +1,6 @@
+#!/bin/sh
+
+. ./setenv
+
+cd web
+rackup

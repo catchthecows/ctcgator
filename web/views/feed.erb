@@ -1,0 +1,7 @@
+<h2><%= @feed.title %></h2>
+
+<ul> 
+   <% @entries.each do |entry| %>
+       <li><a href='/f/<%= entry.sourceid%>/<%= entry.num%>'><%= entry.title %></a></li>
+   <% end %>
+</ul> 

@@ -1,0 +1,9 @@
+source :rubygems
+
+gem 'sinatra'
+gem 'json'
+gem 'oauth2'
+gem 'data_mapper'
+gem 'dm-sqlite-adapter'
+gem 'sqlite3'
+gem 'bcrypt-ruby'
