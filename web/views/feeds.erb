@@ -1,7 +1,7 @@
 <h2>Feed list</h2>
 
 <ul> 
-   <% @feeds.each do |feed| %>
-       <li><%= feed.title %></li>
+    <% @feeds.each do |feed| %>
+       <li><a href='/f/<%= feed.id %>'><%= feed.title %></a></li>
    <% end %>
 </ul> 

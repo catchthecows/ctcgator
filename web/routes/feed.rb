@@ -1,3 +1,6 @@
+require 'zip/zip'
+require 'fileutils'
+
 class CTCGator < Sinatra::Application
     get '/feeds' do
         @feeds = Source.all
@@ -11,8 +14,20 @@ class CTCGator < Sinatra::Application
     end
 
     get '/f/:feedid/:entryid' do
-        @entries = Entry.all(:sourceid => params[:feedid],:num => params[:entryid])
+        fid = params[:feedid]
+        eid = params[:entryid]
+
+        @entries = Entry.all(:sourceid => fid,:num => eid)
         @entry = @entries[0]
+
+        file = "#{ENV['FEED_DIR']}/#{fid}/#{eid}.zip"
+
+        Zip::ZipInputStream::open(file) { |io|
+            while (entry = io.get_next_entry)
+                # puts "Contents of #{entry.name}: '#{io.read}'"
+                @content = "#{io.read}"
+            end
+        }
         erb :entry
     end
 end
