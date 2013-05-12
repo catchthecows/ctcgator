@@ -2,7 +2,7 @@ require 'zip/zip'
 require 'fileutils'
 
 class CTCGator < Sinatra::Application
-    get '/feeds' do
+    get '/feeds', :auth => :user do
         @feeds = Source.all
         erb :feeds
     end

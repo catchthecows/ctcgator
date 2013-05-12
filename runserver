@@ -3,4 +3,5 @@
 . ./setenv
 
 cd web
-rackup
+#rackup
+shotgun -p 9292
