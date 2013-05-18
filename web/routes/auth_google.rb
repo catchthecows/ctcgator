@@ -3,11 +3,9 @@ require 'oauth2'
 class CTCGator < Sinatra::Application
     # Scopes are space separated strings
     SCOPES = [
-        'https://mail.google.com/',
-        'https://www.googleapis.com/auth/userinfo.email'
+	'https://www.google.com/reader/api/'
     ].join(' ')
 
-    # TODO get proper API keys
     unless G_API_CLIENT = ENV['G_API_CLIENT']
         raise "You must specify the G_API_CLIENT env variable"
     end
@@ -32,9 +30,8 @@ class CTCGator < Sinatra::Application
         @message = "Successfully authenticated with the server"
         @access_token = session[:access_token]
 
-        # parsed is a handy method on an OAuth2::Response object that will 
-        # intelligently try and parse the response.body
-        @email = access_token.get('https://www.googleapis.com/userinfo/email?alt=json').parsed
+	response = access_token.get('https://www.google.com/reader/api/0/subscription/list')
+	@email = response.body
         erb :success
     end
 
