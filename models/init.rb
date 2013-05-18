@@ -11,6 +11,7 @@ require_relative 'source'
 require_relative 'entry'
 require_relative 'user'
 require_relative 'usersession'
+require_relative 'tokenpair'
 
 DataMapper.auto_upgrade!
 

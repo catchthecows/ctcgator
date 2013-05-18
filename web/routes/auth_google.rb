@@ -9,11 +9,11 @@ class CTCGator < Sinatra::Application
 
     # TODO get proper API keys
     unless G_API_CLIENT = ENV['G_API_CLIENT']
-        #raise "You must specify the G_API_CLIENT env variable"
+        raise "You must specify the G_API_CLIENT env variable"
     end
 
     unless G_API_SECRET = ENV['G_API_SECRET']
-        #raise "You must specify the G_API_SECRET env veriable"
+        raise "You must specify the G_API_SECRET env veriable"
     end
 
     def client
@@ -38,7 +38,7 @@ class CTCGator < Sinatra::Application
         erb :success
     end
 
-    get "/auth" do
+    get "/authgoogle" do
         redirect client.auth_code.authorize_url(:redirect_uri => redirect_uri,:scope => SCOPES,:access_type => "offline")
     end
 

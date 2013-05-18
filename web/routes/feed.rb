@@ -7,13 +7,13 @@ class CTCGator < Sinatra::Application
         erb :feeds
     end
 
-    get '/f/:id' do
+    get '/f/:id', :auth => :user do
         @feed = Source.get(params[:id])
         @entries = Entry.all(:sourceid => params[:id])
         erb :feed
     end
 
-    get '/f/:feedid/:entryid' do
+    get '/f/:feedid/:entryid', :auth => :user do 
         fid = params[:feedid]
         eid = params[:entryid]
 
