@@ -6,8 +6,8 @@ require_relative 'rssreader'
 
 def scan
     r = RssReader.new
-    #Source.all.each do | s |
-    Source.all( :url.like => '%colo%' ).each do | s |
+    Source.all.each do | s |
+    #Source.all( :url.like => '%colo%' ).each do | s |
     #Source.all( :url.like => '%GitHub%' ).each do | s |
         FileUtils.mkpath "#{ENV['FEED_DIR']}/#{s.id}"
         
