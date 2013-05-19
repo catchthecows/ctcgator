@@ -8,6 +8,10 @@ class User
     property :password, String
     property :salt, String
 
+    # all feeds must live under a tag
+    # will need a global tag for untagged feed tracks
+    has n, :tags
+
     def self.authenticate(params) 
         u = User.first(:name=>params['user']['name'])
         if (u)
@@ -34,4 +38,21 @@ class User
         u.save
         return u
     end
+
+    class Tag
+        include DataMapper::Resource
+        property :id, Serial
+        property :tag, String
+
+        has n, :feeds
+    end
+
+    class Feed
+        include DataMapper::Resource
+        property :id, Serial
+        property :feedid, Integer
+        property :unreadcount, Integer
+        property :lastread, Integer
+    end
 end
+
