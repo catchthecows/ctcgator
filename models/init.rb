@@ -5,6 +5,16 @@ DataMapper.setup(:default, {
     :database => ENV['DATABASE']
 })
 
+=begin
+DataMapper.setup(:default, {
+    :adapter => 'mysql',
+    :database => ENV['DATABASE'],
+    :username => 'username',
+    :password => 'password',
+    :host     => 'hostname'
+})
+=end
+
 DataMapper::Property::String.length(255)
 
 require_relative 'source'
