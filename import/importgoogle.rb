@@ -50,31 +50,52 @@ def parse_categories(node)
         end
         n = n.next
     end
-    puts "category #{cats.join(',')}"
+    cats
 end
 
-def parse_object(node) 
+def parse_object(user,node) 
     puts "parse object"
     n = node.first
     while (n) do 
         if n.name=='string' && n['name']=='title' then 
             title = n.content
             title.strip!
-            puts "title #{title}"
         end
         if n.name=='string' && n['name']=='id' then 
             url = n.content
             url.strip!
-            puts "url #{url}"
+            url.gsub!(/^feed\//,"")
         end
         if n.name=='list' && n['name']=='categories' then
-            parse_categories n
+            cats = parse_categories n
         end
+        if cats.nil? then
+            cats = Array.new
+            cats.push("global")
+        end
+        
         n = n.next
+    end
+    s = Source.first(:url=>url)
+    if s.nil? then
+        s = Source.create(:count => 0,
+                          :title => title,
+                          :url   => url,
+                          :type  => 'rss')
+        s.save
+    end
+    cats.each do | c | 
+        tag = user.tags.first(:tag=>c)
+        if tag.nil? then
+            tag = user.tags.create(:tag=>c)
+        end
+        unless tag.feeds.first(:feedid=>s.id) 
+            tag.feeds.create(:feedid=>s.id)
+        end
     end
 end
 
-def import_subscriptions(filename)
+def import_subscriptions(user,filename)
     source = XML::Parser.file(filename)
     document = source.parse
     content = document.find('//list') #.find
@@ -85,7 +106,7 @@ def import_subscriptions(filename)
             while (n) do
                 if !n.text? then
                    if (n.name == 'object') then
-                       parse_object n
+                       parse_object user,n
                    end 
                 end
                 n = n.next
@@ -95,5 +116,5 @@ def import_subscriptions(filename)
 end
 
 #import_opml "#{ENV['DATA_DIR']}/subscriptions.xml"
-import_subscriptions "#{ENV['DATA_DIR']}/list.txt.full"
+#import_subscriptions "#{ENV['DATA_DIR']}/list.txt.full"
 

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+export DATA_DIR=`pwd`"/data"
+export FEED_DIR=${DATA_DIR}/"feeds"
+export DATABASE=${DATA_DIR}/"ctcgator.db"
+
+mkdir -p ${FEED_DIR}
+
+rm ${DATABASE}
+
+ruby test_import.rb
