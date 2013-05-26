@@ -11,7 +11,7 @@ DataMapper.setup(:default, {
     :adapter => 'mysql',
     :database => 'ctcgator',
     :username => ENV['MYSQL_USER'],
-    :password => ENV['MYSQL_PASSWORD']'
+    :password => ENV['MYSQL_PASSWORD'],
     :host     => 'localhost'
 })
 

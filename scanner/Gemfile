@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem 'libxml4r'
 gem 'murmurhash3'
@@ -7,3 +7,5 @@ gem 'dm-sqlite-adapter'
 gem 'sqlite3'
 gem 'feed-normalizer'
 gem 'rubyzip'
+gem 'mysql2'
+gem 'dm-mysql-adapter'
