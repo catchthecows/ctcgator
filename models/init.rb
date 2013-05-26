@@ -1,19 +1,19 @@
 require 'data_mapper'
 
+=begin
 DataMapper.setup(:default, {
     :adapter => 'sqlite3',
     :database => ENV['DATABASE']
 })
+=end
 
-=begin
 DataMapper.setup(:default, {
     :adapter => 'mysql',
-    :database => ENV['DATABASE'],
-    :username => 'username',
-    :password => 'password',
-    :host     => 'hostname'
+    :database => 'ctcgator',
+    :username => ENV['MYSQL_USER'],
+    :password => ENV['MYSQL_PASSWORD']'
+    :host     => 'localhost'
 })
-=end
 
 DataMapper::Property::String.length(255)
 

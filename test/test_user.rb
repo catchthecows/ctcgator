@@ -17,11 +17,11 @@ class TestUser < Test::Unit::TestCase
     end
 
     def test_login
-        u = User.createuser( {"user"=>{"name"=>"user", "password"=>"pw"}} )
-        assert_equal "user", u.name
+        u = User.createuser( {"user"=>{"name"=>"user2", "password"=>"pw"}} )
+        assert_equal "user2", u.name
 
-        lookup = User.authenticate( {"user"=>{"name"=>"user", "password"=>"pw"}} )
-        assert_equal "user", u.name
+        lookup = User.authenticate( {"user"=>{"name"=>"user2", "password"=>"pw"}} )
+        assert_equal "user2", u.name
 
         session = UserSession.createsession( u, "192.168.1.2" )
         assert_equal u.id, session.userid
