@@ -9,7 +9,7 @@ class CTCGator < Sinatra::Application
 
     get '/f/:id', :auth => :user do
         @feed = Source.get(params[:id])
-        @entries = Entry.all(:sourceid => params[:id])
+        @entries = Entry.all(:sourceid => params[:id], :order=>[:date.desc])
         erb :feed
     end
 
