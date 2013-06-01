@@ -14,18 +14,19 @@ class CTCGator < Sinatra::Application
     end
 
     before do
-        @user = User.get(session[:user_id])
+        @user = UserSession.authenticate(session[:token])
     end
 
     post "/login" do
         u = User.authenticate(params)
         if (u)
-            session[:user_id] = u.id
+            s = UserSession.createsession(u)
+            session[:token] = s.token
         end
         redirect "/feeds"
     end
 
     get "/logout" do
-        session[:user_id] = nil
+        session[:token] = nil
     end
 end

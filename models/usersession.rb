@@ -5,25 +5,24 @@ class UserSession
 
     property :id, Serial
     property :token, String
-    property :ip, String
     property :userid, Integer
 
-    def self.createsession( user, ipaddr )
-        s = UserSession.new
-        s.token = SecureRandom.base64
-        s.ip = ipaddr
-        s.userid = user.id
-        s.save
+    def self.createsession( user )
+        s = UserSession.first(:userid=>user.id)
+        if s.nil? then
+            s = UserSession.new
+            s.token = SecureRandom.base64
+            s.userid = user.id
+            s.save
+        end
         return s
     end
 
-    def self.authenticate( token, ipaddr )
+    def self.authenticate( token )
         s = UserSession.first(:token => token)
         if (s)
-            if (s.ip == ipaddr) 
-                u = User.get(s.userid)
-                return u
-            end
+            u = User.get(s.userid)
+            return u
         end
         return nil
     end
