@@ -1,0 +1,5 @@
+#!/bin/sh
+
+. ../apisecrets
+
+ruby testtagfeed.rb

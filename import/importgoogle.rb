@@ -89,8 +89,11 @@ def parse_object(user,node)
         if tag.nil? then
             tag = user.tags.create(:tag=>c)
         end
-        unless tag.feeds.first(:feedid=>s.id) 
-            tag.feeds.create(:feedid=>s.id)
+        unless tag.feeds.first(:source=>s) 
+            f = tag.feeds.create(:source=>s)
+            if !f.valid? then
+                puts f.errors.inspect
+            end
         end
     end
 end
