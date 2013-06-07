@@ -50,8 +50,8 @@ class User
     class Feed
         include DataMapper::Resource
         property :id, Serial
-        property :unreadcount, Integer
-        property :lastread, Integer
+        property :unreadcount, Integer, :default => 0
+        property :lastread, Integer, :default => 0
 
         belongs_to :source
     end
