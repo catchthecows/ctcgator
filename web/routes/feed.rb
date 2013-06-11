@@ -28,6 +28,6 @@ class CTCGator < Sinatra::Application
                 @content = "#{io.read}"
             end
         }
-        erb :entry
+        erb :entry, :layout => false
     end
 end
