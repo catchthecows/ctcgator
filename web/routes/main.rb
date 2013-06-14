@@ -1,5 +1,5 @@
 class CTCGator < Sinatra::Application
-    get '/' do, :auth => :user
+    get '/', :auth => :user do
        redirect "/u" 
     end
 

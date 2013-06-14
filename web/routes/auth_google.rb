@@ -30,8 +30,8 @@ class CTCGator < Sinatra::Application
         @message = "Successfully authenticated with the server"
         @access_token = session[:access_token]
 
-	response = access_token.get('https://www.google.com/reader/api/0/subscription/list')
-	@email = response.body
+	    response = access_token.get('https://www.google.com/reader/api/0/subscription/list')
+	    @email = response.body
         erb :success
     end
 

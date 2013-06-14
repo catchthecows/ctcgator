@@ -98,11 +98,9 @@ def parse_object(user,node)
     end
 end
 
-def import_subscriptions(user,filename)
-    source = XML::Parser.file(filename)
+def parse_content(user,source)
     document = source.parse
     content = document.find('//list') #.find
-    
     content.each do | l |
         if (l['name'] == 'subscriptions') then
             n = l.first
@@ -116,6 +114,16 @@ def import_subscriptions(user,filename)
             end
         end
     end
+end
+
+def import_subscriptions_file(user,filename)
+    source = XML::Parser.file(filename)
+    parse_content(user,source)
+end
+
+def import_subscriptions_string(user,contentstring)
+    source = XML::Parser.string(contentstring)
+    parse_content(user,source)
 end
 
 #import_opml "#{ENV['DATA_DIR']}/subscriptions.xml"

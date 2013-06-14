@@ -1,9 +1,12 @@
 <div id="title">User</div>
 <div id="main">
 <div id="nav">
-
+<% if @tags.count > 0 %>
 <% @tags.each do |t| %>
     <div id="tag-entry"><a class='feedlink' data-target='#nav' href='/t/<%= t.id %>'><%= t.tag %></a></div>
+<% end %>
+<% else %>
+    <div id="auth-link"><a href='/authgoogle'>Import Google Feeds</a></div>
 <% end %>
 
 </div>
@@ -13,7 +16,6 @@
 <script type="text/javascript" src="/script/jquery-2.0.2.js"></script>
 <script>
     loadPage = function(target,url) {
-        alert(target);
         $.ajax({
             url: url,
             error: function (jqXHR, textStatus, errorThrown) {

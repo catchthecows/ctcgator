@@ -23,7 +23,7 @@ class CTCGator < Sinatra::Application
             s = UserSession.createsession(u)
             session[:token] = s.token
         end
-        redirect "/feeds"
+        redirect "/u"
     end
 
     get "/logout" do
