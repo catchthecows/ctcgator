@@ -1,0 +1,58 @@
+<div id="title">User</div>
+<div id="main">
+<div id="nav">
+
+<% @tags.each do |t| %>
+    <div id="tag-entry"><a class='feedlink' data-target='#nav' href='/t/<%= t.id %>'><%= t.tag %></a></div>
+<% end %>
+
+</div>
+<div id="content">
+</div>
+</div>
+<script type="text/javascript" src="/script/jquery-2.0.2.js"></script>
+<script>
+    loadPage = function(target,url) {
+        alert(target);
+        $.ajax({
+            url: url,
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown)
+            },
+            success: function (html) {
+                alert(target);
+                $(target).html(html);
+            }
+        });
+    };
+    $("#main").on("click", ".feedlink", function(e){
+        e.preventDefault();                
+        var name = this.getAttribute("data-target");
+        window.history.pushState({target:name},'',this.href);
+        loadPage(name,this.href);
+    });
+    var initial=true;
+    $(window).bind("popstate", function(e){
+        var initialPop = initial;
+        initial = false;
+        if ( initialPop ) return;
+
+        console.log(e);
+        if (e.orginalEvent !== null) {
+            var state = e.originalEvent.state;
+            if (state !== null) {
+                var name = state.target;
+                loadPage(name,location.href);
+            } else {
+                window.location = location.href;
+            }
+        }
+    });
+</script>
+
+<%
+=begin
+%>
+<%
+=end
+%>

@@ -1,7 +1,3 @@
-<h2>Feed list</h2>
-
-<ul> 
-    <% @feeds.each do |feed| %>
-       <li><a href='/f/<%= feed.source.id %>'><%= feed.source.title %></a></li>
-   <% end %>
-</ul> 
+<% @feeds.each do |feed| %>
+   <div id='feed-entry'><a class='feedlink' data-target='#content' href='/f/<%= feed.source.id %>'><%= feed.source.title %></a></div>
+<% end %>

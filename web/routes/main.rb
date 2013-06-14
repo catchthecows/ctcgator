@@ -1,7 +1,6 @@
 class CTCGator < Sinatra::Application
-    get '/' do
-        #erb :index
-       redirect "/login" 
+    get '/' do, :auth => :user
+       redirect "/u" 
     end
 
     get '/login' do 

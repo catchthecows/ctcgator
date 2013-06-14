@@ -1,27 +1,5 @@
 <div id="title"><%= @feed.title %></div>
-<div id="main">
-<div id="nav">
-<ul> 
    <% @entries.each do |entry| %>
-       <li><a class='feedlink' href='/f/<%= entry.sourceid%>/<%= entry.num%>'><%= entry.title %></a></li>
+       <div id="entry-title"><a class='feedlink' data-target='#entry-<%=entry.num%>' href='/f/<%= entry.sourceid%>/<%= entry.num%>'><%= entry.title %></a></div>
+       <div id="entry-<%=entry.num%>"></div>
    <% end %>
-</ul> 
-</div>
-<div id="content">
-</div>
-</div>
-<script type="text/javascript" src="/script/jquery-2.0.2.js"></script>
-<script>
-    $("#nav").on("click", ".feedlink", function(e){
-        e.preventDefault();                
-        $.ajax({
-            url: this.href,
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown)
-            },
-            success: function (html) {
-                $('#content').html(html);
-            }
-        });
-    });
-</script>
