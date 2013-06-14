@@ -122,6 +122,7 @@ def import_subscriptions_file(user,filename)
 end
 
 def import_subscriptions_string(user,contentstring)
+    contentstring.gsub!("&","&amp;")
     source = XML::Parser.string(contentstring)
     parse_content(user,source)
 end
