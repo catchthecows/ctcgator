@@ -29,15 +29,14 @@ class CTCGator < Sinatra::Application
         # http://rubydoc.info/github/intridea/oauth2/ebe4be038ec14b349682/OAuth2/AccessToken
         access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
         session[:access_token] = access_token.token
-        
-        @access_token = session[:access_token]
 
         erb :startimport
     end
 
     get '/importdirectgoogle', :auth => :user do
-        access_token = session[:access_token] 
-	    response = access_token.get('https://www.google.com/reader/api/0/subscription/list')
+  	access_token = OAuth2::AccessToken.new(client, session[:access_token])
+
+	response = access_token.get('https://www.google.com/reader/api/0/subscription/list')
 
         import_subscriptions_string @user, response.body
 
