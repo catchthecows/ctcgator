@@ -40,6 +40,12 @@
         window.history.pushState({target:name},'',this.href);
         loadPage(name,this.href);
     });
+    $("#main").on("click", ".entrylink", function(e){
+        e.preventDefault();                
+        var open = this.getAttribute("data-open");
+        var name = this.getAttribute("data-target");
+        loadPage(name,this.href);
+    });
     var initial=true;
     $(window).bind("popstate", function(e){
         var initialPop = initial;
